@@ -42,7 +42,7 @@ class Settler
     # Returns an array of all setting keys
     def settings(options = {})
       Settler.load! if config.nil?
-      Setting.order(options[:order]).select(:key).map(&:key)
+      Setting.all_keys(options)
     end  
     
     # Returns a list of validations to perform on a setting.

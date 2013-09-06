@@ -12,3 +12,7 @@ group :test do
   gem 'jeweler'
 end
 
+
+group :mongoid do
+	gem "mongoid", github: "mongoid/mongoid", branch: "master"
+end

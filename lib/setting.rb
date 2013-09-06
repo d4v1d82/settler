@@ -1,20 +1,18 @@
 require 'type_casters'
 
 # The Setting class is an AR model that encapsulates a Settler setting. The key if the setting is the only required attribute.\
-class Setting < ActiveRecord::Base  
+class Setting 
+
+  cattr_accessor :rails3
+  self.rails3 = defined?(ActiveRecord::VERSION) && ActiveRecord::VERSION::MAJOR >= 3  
 
   attr_readonly :key
 
-  serialize :value
-  
   validates :key, :presence => true
   validate  :setting_validations
   validate  :ensure_editable, :on => :update  
-
-  default_scope { where(['deleted = ? or deleted IS NULL', false]) }
-  
-  scope :editable, lambda{ where(:editable => true) }
-  scope :deletable, lambda{ where(:deletable => true) }
+  validate(:ensure_editable, :on => :update)
+    
   
   # Returns the value, typecasted if a typecaster is available.
   def value
@@ -61,16 +59,7 @@ class Setting < ActiveRecord::Base
     nil
   end
   
-  # Performs a soft delete of the setting if this setting is deletable. This ensures this setting is not recreated from the configuraiton file.
-  # Returns false if the setting could not be destroyed.
-  def destroy    
-    if deletable?       
-      self.deleted = true if Setting.where(:id => self).update_all(:deleted => true)
-      deleted?
-    else 
-      false
-    end
-  end
+
   
   # Overrides the delete methods to ensure the default scope is not passed in the query
   def delete *args;           Setting.unscoped{ super } end  
@@ -83,11 +72,11 @@ class Setting < ActiveRecord::Base
     self.value = defaults['value']
     self.editable = defaults['editable']
     self.deletable = defaults['deletable']    
-    self.deleted = false    
-    save(:validate => false)
+    self.deleted = false  
+    self.save(:validate => false)
   end
   
-  # Deleted scope is specified as a method as it needs to be an exclusive scope
+  # # Deleted scope is specified as a method as it needs to be an exclusive scope
   def self.deleted
     unscoped { Setting.where(:deleted => true) }
   end 

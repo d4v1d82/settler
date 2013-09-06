@@ -1,3 +1,14 @@
+GIT
+  remote: git://github.com/mongoid/mongoid.git
+  revision: 38de2e96edc8f64fbe3cdbe062f1d91e9feb388d
+  branch: master
+  specs:
+    mongoid (4.0.0)
+      activemodel (~> 4.0.0)
+      moped (~> 1.5)
+      origin (~> 1.0)
+      tzinfo (~> 0.3.37)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -50,6 +61,7 @@ GEM
     jwt (0.1.8)
       multi_json (>= 1.5)
     minitest (4.7.5)
+    moped (1.5.1)
     multi_json (1.7.8)
     multi_xml (0.5.5)
     multipart-post (1.2.0)
@@ -61,6 +73,7 @@ GEM
       multi_json (~> 1.0)
       multi_xml (~> 0.5)
       rack (~> 1.2)
+    origin (1.1.0)
     rack (1.5.2)
     rake (10.1.0)
     rdoc (4.0.1)
@@ -78,5 +91,6 @@ DEPENDENCIES
   activesupport (>= 3.1)
   appraisal
   jeweler
+  mongoid!
   rdoc (>= 2.4.2)
   sqlite3
